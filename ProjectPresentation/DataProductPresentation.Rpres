@@ -1,0 +1,70 @@
+Data Product Presentation
+========================================================
+## Demographic Comparator Application
+
+author: J.D. Anderson
+
+date: 4/26/2015
+
+Problem Statement
+========================================================
+As the amount of data sets our organization has collected increases, we are provided with many more options for advanced analytical analysis.
+
+However, with more data sets comes more confusion as to which sets are available, and which are most appropriate for the specific analysis begin performed.
+
+Solution
+========================================================
+### The New Demographic Comparator Shiny App!!!
+
+This application will allow the analytics teams to easily:
+
+1.  Browse the data sets to see which are available 
+2.	View the demographic distribution for each set
+3.	View the information for multiple sets simultaneously in order to compare and contrast their demographic information
+
+The application will allow for the selection of data sets and specific Demographic values. Output from the current Set3 and Set4 sets with details for age 40 is shown on the next slide.
+
+Example
+========================================================
+
+```{r echo=FALSE}
+require(ggplot2)
+SetTotals <- read.table("SetTotals.txt",header=TRUE)
+AgeSets <- read.table("AgeSets.txt",header=TRUE)
+AgeSubset <- AgeSets[AgeSets$Set=="Set3" | AgeSets$Set=="Set4",]
+TotalSubset <- SetTotals[SetTotals$Set=="Set3" | SetTotals$Set=="Set4",]
+AgeNumber <- AgeSubset[AgeSubset$Age==40,c(2,4,3)]
+AgeNumber$Pct <- round(AgeNumber$Pct * 100,4)
+colnames(AgeNumber) <- c("Set Name",paste("Total Records for Age",40),"Percent of Total Records")
+colnames(TotalSubset) <- c("Set Name","Total Record Count")
+
+ggplot(AgeSubset,aes(x=Age,y=(Pct*100),group=Set,col=Set)) + geom_line(lwd=2) + ylab("Percentage of Total") + geom_vline(xintercept=40)
+```
+
+***
+Set Totals
+```
+Set    Record Count
+`r TotalSubset[1,1]`   `r TotalSubset[1,2]`
+`r TotalSubset[2,1]`   `r TotalSubset[2,2]`
+```
+Age Totals for Age 40
+```
+Set   Count  Pct
+`r AgeNumber[1,1]`  `r AgeNumber[1,2]`  `r AgeNumber[1,3]`
+`r AgeNumber[2,1]`  `r AgeNumber[2,2]`  `r AgeNumber[2,3]`
+```
+
+Summary
+========================================================
+### Conclusion
+
+The new Demographic Comparator Shiny App will allow the analytics teams to more quickly identify the data sets that they need and spend more time on the analytics process.
+
+### Next Steps
+
+1.  The current metric collections that are performed when data sets are loaded will need to be upgraded to produce the input files required by the application
+2.	A new local R Shiny server will need to be implemented in order to host the application
+
+
+
