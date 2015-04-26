@@ -12,7 +12,7 @@
 ##
 require(shiny)
 shinyUI(pageWithSidebar(
-  headerPanel("Age Demographic Distribution"),
+  headerPanel("Demographic Comarator"),
   sidebarPanel(
     h3("Set Selection:"),
     h4("Select one or more available sets to view the total Record counts and Age Distributions"),
